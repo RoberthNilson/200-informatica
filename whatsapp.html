@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://kit.fontawesome.com/391827d54c.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="styles1.css">
+  <title>Whatsapp Clone</title>
+  <style>
+    /* Só para garantir visualização básica */
+    .chat-box {cursor:pointer;}
+    .chat-container {height: 400px; overflow-y: auto; padding:10px;}
+    .message-box {margin:5px 0; padding:8px; border-radius:10px; max-width:60%;}
+    .my-message {background:#dcf8c6; margin-left:auto;}
+    .friend-message {background:#fff;}
+  </style>
+</head>
+<body>
+  <div class="background-green"></div>
+
+  <div class="main-container">
+    <!-- Lista de contatos -->
+    <div class="left-container">
+      <div class="header">
+        <div class="user-img">
+          <img class="dp" src="src/download.png" alt="">
+        </div>
+        <div class="nav-icons">
+          <li><i class="fa-solid fa-users"></i></li>
+          <li><i class="fa-solid fa-message"></i></li>
+          <li><i class="fa-solid fa-ellipsis-vertical"></i></li>
+        </div>
+      </div>
+
+      <div class="search-container">
+        <div class="input">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Search or start new chat">
+        </div>
+      </div>
+
+      <div class="chat-list">
+        <div class="chat-box" data-user="Roberth Nilson">
+          <div class="img-box"><img class="img-cover" src="src/Roberth Nilson.jpg"></div>
+          <div class="chat-details"><h4>Roberth Nilson</h4><p></p></div>
+        </div>
+
+        <div class="chat-box" data-user="Victor Gabriel">
+          <div class="img-box"><img class="img-cover" src="src/Victor Gabriel.png"></div>
+          <div class="chat-details"><h4>Victor Gabriel</h4><p></p></div>
+        </div>
+
+        <div class="chat-box" data-user="Geovana">
+          <div class="img-box"><img class="img-cover" src="src/Sem Perfil.jpg"></div>
+          <div class="chat-details"><h4>Geovana</h4><p></p></div>
+        </div>
+
+        <div class="chat-box" data-user="Rayza">
+          <div class="img-box"><img class="img-cover" src="src/rayza.jpg"></div>
+          <div class="chat-details"><h4>Rayza</h4><p></p></div>
+        </div>
+
+        <div class="chat-box" data-user="Cleiciane">
+          <div class="img-box"><img class="img-cover" src="src/cleiciane.jpg"></div>
+          <div class="chat-details"><h4>Cleiciane</h4><p></p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Área do chat -->
+    <div class="right-container">
+      <div class="header">
+        <div class="img-text">
+          <div class="user-img"><img class="dp" id="chat-img" src="" alt=""></div>
+          <h4 id="chat-name">Selecione um contato<br><span id="chat-status"></span></h4>
+        </div>
+        <div class="nav-icons">
+          <li><i class="fa-solid fa-magnifying-glass"></i></li>
+          <li><i class="fa-solid fa-ellipsis-vertical"></i></li>
+        </div>
+      </div>
+
+      <div class="chat-container" id="chat-container">
+        <p>👉 Clique em um contato para abrir a conversa.</p>
+      </div>
+
+      <div class="chatbox-input">
+        <i class="fa-regular fa-face-grin"></i>
+        <i class="fa-sharp fa-solid fa-paperclip"></i>
+        <input type="text" placeholder="Type a message">
+        <i class="fa-solid fa-microphone"></i>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const chats = {
+      "Roberth Nilson": [
+        {from:"friend", text:"whatsApp Business API!", time:"11:40"},
+        {from:"me", text:"Voltada para empresas medias e grandes.", time:"11:41"},
+        {from:"me", text:" Permite envio de mensagens automatizadas,", time:"11:42"},
+        {from:"me", text:"notificaçoes e atendimento ao cliente,", time:"11:43"},
+        {from:"me", text:"integra com CRMs, chatbots e plataformas de e-commerce.", time:"11:44"}
+      ],
+      "Victor Gabriel": [
+        {from:"friend", text:"API de Webhooks", time:"10:40"},
+        {from:"me", text:"Usada para receber eventos em tempo real (mensagens recebidas, status de entrega, etc.)", time:"10:49"},
+        {from:"me", text:"Permite integração com sistemas externos", time:"10:49"},
+      ],
+      "Geovana": [
+        {from:"friend", text:" API de Mensagens Interativas", time:"09:49"},
+        {from:"me", text:"Permite envio de botões, listas e respostas rápidas.", time:"09:49"},
+        {from:"me", text:"Melhora a experiência do usuário com interações mais dinâmicas.", time:"09:49"}
+      ],
+      "Rayza": [
+        {from:"friend", text:"API de Autenticação (via WhatsApp)", time:"08:49"},
+        {from:"me", text:"Utilizada por algumas plataformas para autenticar usuários via código enviado pelo WhatsApp.", time:"08:49"},
+        {from:"me", text:"Alternativa ao SMS tradicional.", time:"08:49"}
+      ],
+      "Cleiciane": [
+        {from:"friend", text:" API de Integração com Chatbots", time:"07:43"},
+        {from:"me", text:"	Não é uma API oficial separada, mas envolve o uso da Business API com frameworks como Dialogflow, Rasa ou plataformas como Twilio.", time:"07:45"},
+        {from:"me", text:"Permite criar assistentes virtuais que respondem automaticamente no WhatsApp.", time:"07:46"},
+      ]
+    };
+
+    const chatBoxes = document.querySelectorAll(".chat-box");
+    const chatContainer = document.getElementById("chat-container");
+    const chatName = document.getElementById("chat-name");
+    const chatImg = document.getElementById("chat-img");
+    const chatStatus = document.getElementById("chat-status");
+
+    chatBoxes.forEach(box=>{
+      box.addEventListener("click", ()=>{
+        let user = box.dataset.user;
+        let img = box.querySelector("img").src;
+        chatName.innerHTML = user+"<br><span>Online</span>";
+        chatImg.src = img;
+        chatStatus.innerText = "Online";
+
+        chatContainer.innerHTML = "";
+        chats[user].forEach(msg=>{
+          let div = document.createElement("div");
+          div.classList.add("message-box");
+          div.classList.add(msg.from=="me" ? "my-message" : "friend-message");
+          div.innerHTML = `<p>${msg.text}<br><span>${msg.time}</span></p>`;
+          chatContainer.appendChild(div);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
